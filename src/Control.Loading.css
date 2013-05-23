@@ -1,0 +1,14 @@
+.leaflet-control-loading {
+    /* This is where your loading indicator would go */
+    background: url();
+}
+
+.leaflet-control-loading,
+.leaflet-control-zoom a.leaflet-control-loading {
+    display: none;
+}
+
+.leaflet-control-loading.is-loading,
+.leaflet-control-zoom a.leaflet-control-loading.is-loading {
+    display: block;
+}
