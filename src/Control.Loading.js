@@ -46,15 +46,13 @@ L.Control.Loading = L.Control.extend({
         // "Subtract" from the hash of loaders we are tracking
         this._dataLoaders[id] = false;
 
-        // Remove the indicator
-        // If there are no loaders left, don't add it back
-        this._hideIndicator();
-        Object.keys(this._dataLoaders).some(function(key) {
-            if ( this._dataLoaders[key] === true ) {
-                this._showIndicator();
-                return true;
+        // If there are no loaders left, remove the indicator
+        for (var key in this._dataLoaders) {
+            if (this._dataLoaders[key] === true) {
+                return;
             }
-        }, this);
+        }
+        this._hideIndicator();
     },
 
     _showIndicator: function() {
