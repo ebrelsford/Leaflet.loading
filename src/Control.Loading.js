@@ -9,7 +9,7 @@ L.Control.Loading = L.Control.extend({
 
     initialize: function(options) {
         L.setOptions(this, options);
-        this._dataLoaders = 0;
+        this._dataLoaders = {};
     },
 
     onAdd: function(map) {
@@ -29,27 +29,32 @@ L.Control.Loading = L.Control.extend({
         return container;
     },
 
-    addLoader: function() {
-        // Add to the loaders we are tracking
-        this._dataLoaders++;
+    addLoader: function(id) {
+        // "Add" to the hash of loaders we are tracking
+        this._dataLoaders[id] = true;
 
-        // If there are some loaders, show the indicator
-        if (this._dataLoaders > 0) {
-            this._showIndicator();
-        }
+        // If there are any loaders, show the indicator
+        Object.keys(this._dataLoaders).some(function(key) {
+			if ( this._dataLoaders[key] === true ) {
+				this._showIndicator();
+				return true;
+			}
+		}, this);
     },
 
-    removeLoader: function() {
-        // Subtract from the loaders we are tracking
-        this._dataLoaders--;
+    removeLoader: function(id) {
+        // "Subtract" from the hash of loaders we are tracking
+        this._dataLoaders[id] = false;
 
-        // If there are no loaders left, remove the indicator
-        if (this._dataLoaders <= 0) {
-            // If there is a mismatch don't let the number of loaders
-            // become negative
-            this._dataLoaders = 0;
-            this._hideIndicator();
-        }
+        // Remove the indicator
+        // If there are no loaders left, don't add it back
+        this._hideIndicator();
+        Object.keys(this._dataLoaders).some(function(key) {
+            if ( this._dataLoaders[key] === true ) {
+                this._showIndicator();
+                return true;
+            }
+        }, this);
     },
 
     _showIndicator: function() {
@@ -86,23 +91,40 @@ L.Map.addInitHook(function () {
     this.on('layeradd', function(e) {
         e.layer.on({
             loading: function(e) {
-                this._map.loadingControl.addLoader();
+                this._map.loadingControl.addLoader(e.target._leaflet_id);
             },
             load: function(e) {
-                this._map.loadingControl.removeLoader();
+                this._map.loadingControl.removeLoader(e.target._leaflet_id);
             },
         });
     });
 
+    // Helper function used below for event handling unification
+    function getIdFromEvent(e, id) {
+        // Handle jQuery event object created from vanilla CustomEvent
+        if ( typeof e.originalEvent !== 'undefined' ) {
+            return e.originalEvent.detail.id;
+        // Handle vanilla CustomEvent object (this will probably never happen)
+        } else if ( typeof e.detail !== 'undefined' ) {
+            return e.detail.id;
+        // Handle jQuery event sent using jQuery .trigger()
+        } else {
+            return id;
+        }
+    }
+
     // Add listeners to the map for (custom) dataloading and dataload
     // events, eg, for AJAX calls that affect the map but will not be
     // reflected in the above layer events.
+    // The use of .on() implies jQuery is a requirement
     this.on({
-        dataloading: function(e) {
-            this.loadingControl.addLoader();
+        dataloading: function(e, id) {
+            var _id = getIdFromEvent(e, id);
+            this.loadingControl.addLoader(_id);
         },
-        dataload: function(e) {
-            this.loadingControl.removeLoader();
+        dataload: function(e, id) {
+            var _id = getIdFromEvent(e, id);
+            this.loadingControl.removeLoader(_id);
         },
     });
 });
