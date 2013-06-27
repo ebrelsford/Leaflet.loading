@@ -17,6 +17,8 @@ L.Control.Loading = L.Control.extend({
 
         this._addMapListeners(map);
 
+        map.loadingControl = this;
+
         // Create the loading indicator
         var classes = 'leaflet-control-loading leaflet-bar-part last';
         var container;
@@ -142,8 +144,7 @@ L.Map.addInitHook(function () {
     if (!this.options.loadingControl) return;
 
     // Create and add the control to the map
-    this.loadingControl = L.Control.loading();
-    this.addControl(this.loadingControl);
+    this.addControl(L.Control.loading());
 });
 
 L.Control.loading = function(options) {
