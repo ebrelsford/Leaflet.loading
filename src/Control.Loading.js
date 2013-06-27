@@ -35,11 +35,11 @@ L.Control.Loading = L.Control.extend({
 
         // If there are any loaders, show the indicator
         Object.keys(this._dataLoaders).some(function(key) {
-			if ( this._dataLoaders[key] === true ) {
-				this._showIndicator();
-				return true;
-			}
-		}, this);
+            if ( this._dataLoaders[key] === true ) {
+                this._showIndicator();
+                return true;
+            }
+        }, this);
     },
 
     removeLoader: function(id) {
