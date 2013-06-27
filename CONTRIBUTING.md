@@ -10,5 +10,5 @@ Your pull requests are very welcome! Please follow these guidelines:
 
 ## Contributors
 
-[Eric Brelsford](https://github.com/ebrelsford)
-[Nick Iaconis](https://github.com/codefox421)
+ * [Eric Brelsford](https://github.com/ebrelsford)
+ * [Nick Iaconis](https://github.com/codefox421)
