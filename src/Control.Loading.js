@@ -13,6 +13,10 @@ L.Control.Loading = L.Control.extend({
     },
 
     onAdd: function(map) {
+        this._addLayerListeners(map);
+
+        this._addMapListeners(map);
+
         // Create the loading indicator
         var classes = 'leaflet-control-loading leaflet-bar-part last';
         var container;
@@ -75,6 +79,63 @@ L.Control.Loading = L.Control.extend({
         }
     },
 
+    _handleLayerLoading: function(e) {
+        var id;
+        if (e.layer) {
+            id = e.layer._leaflet_id;
+        }
+        else {
+            id = e.target._leaflet_id;
+        }
+        this.addLoader(id);
+    },
+
+    _handleLayerLoad: function(e) {
+        var id;
+        if (e.layer) {
+            id = e.layer._leaflet_id;
+        }
+        else {
+            id = e.target._leaflet_id;
+        }
+        this.removeLoader(id);
+    },
+
+    _addLayerListeners: function(map) {
+        // Add listeners for begin and end of load
+        // to any layers already on the map
+        if (map._layers) {
+            for (var index in map._layers) {
+                map._layers[index].on({
+                    loading: this._handleLayerLoading,
+                    load: this._handleLayerLoad,
+                });
+            }
+        }
+
+        // When a layer is added to the map, add listeners for begin and end
+        // of load
+        map.on('layeradd', function(e) {
+            e.layer.on({
+                loading: this._handleLayerLoading,
+                load: this._handleLayerLoad,
+            }, this);
+        }, this);
+    },
+
+    _addMapListeners: function(map) {
+        // Add listeners to the map for (custom) dataloading and dataload
+        // events, eg, for AJAX calls that affect the map but will not be
+        // reflected in the above layer events.
+        map.on({
+            dataloading: function(data) {
+                this.addLoader(data.id);
+            },
+            dataload: function(data) {
+                this.removeLoader(data.id);
+            },
+        }, this);
+    },
 });
 
 L.Map.addInitHook(function () {
@@ -83,48 +144,6 @@ L.Map.addInitHook(function () {
     // Create and add the control to the map
     this.loadingControl = L.Control.loading();
     this.addControl(this.loadingControl);
-
-    // When a layer is added to the map, add listeners for begin and end
-    // of load
-    this.on('layeradd', function(e) {
-        e.layer.on({
-            loading: function(e) {
-                this._map.loadingControl.addLoader(e.target._leaflet_id);
-            },
-            load: function(e) {
-                this._map.loadingControl.removeLoader(e.target._leaflet_id);
-            },
-        });
-    });
-
-    // Helper function used below for event handling unification
-    function getIdFromEvent(e, id) {
-        // Handle jQuery event object created from vanilla CustomEvent
-        if ( typeof e.originalEvent !== 'undefined' ) {
-            return e.originalEvent.detail.id;
-        // Handle vanilla CustomEvent object (this will probably never happen)
-        } else if ( typeof e.detail !== 'undefined' ) {
-            return e.detail.id;
-        // Handle jQuery event sent using jQuery .trigger()
-        } else {
-            return id;
-        }
-    }
-
-    // Add listeners to the map for (custom) dataloading and dataload
-    // events, eg, for AJAX calls that affect the map but will not be
-    // reflected in the above layer events.
-    // The use of .on() implies jQuery is a requirement
-    this.on({
-        dataloading: function(e, id) {
-            var _id = getIdFromEvent(e, id);
-            this.loadingControl.addLoader(_id);
-        },
-        dataload: function(e, id) {
-            var _id = getIdFromEvent(e, id);
-            this.loadingControl.removeLoader(_id);
-        },
-    });
 });
 
 L.Control.loading = function(options) {
