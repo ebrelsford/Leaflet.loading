@@ -5,6 +5,7 @@
 L.Control.Loading = L.Control.extend({
     options: {
         position: 'topleft',
+        separate: false,
     },
 
     initialize: function(options) {
@@ -14,16 +15,19 @@ L.Control.Loading = L.Control.extend({
 
     onAdd: function(map) {
         // Create the loading indicator
-        var classes = 'leaflet-control-loading leaflet-bar-part last';
+        var classes = 'leaflet-control-loading';
         var container;
-        if (map.zoomControl) {
+        if (map.zoomControl && !this.options.separate) {
             // If there is a zoom control, hook into the bottom of it
             container = map.zoomControl._container;
-            classes += ' leaflet-bar-part-bottom';
         }
         else {
-            // Otherwise, create a container for it
+            // Otherwise, create a container for the indicator
             container = L.DomUtil.create('div', 'leaflet-control-zoom');
+        }
+        if (!this.options.separate) {
+            // If a separate control hasn't been requested, style like the zoom control
+            classes += ' leaflet-bar-part last leaflet-bar-part-bottom';
         }
         this._indicator = L.DomUtil.create('a', classes, container);
         return container;
@@ -57,7 +61,7 @@ L.Control.Loading = L.Control.extend({
         L.DomUtil.addClass(this._indicator, 'is-loading');
 
         // If map.zoomControl exists, make the zoom-out button not last
-        if (this._map.zoomControl) {
+        if (this._map.zoomControl && !this.options.separate) {
             L.DomUtil.removeClass(this._map.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
         }
     },
@@ -67,7 +71,7 @@ L.Control.Loading = L.Control.extend({
         L.DomUtil.removeClass(this._indicator, 'is-loading');
 
         // If map.zoomControl exists, make the zoom-out button last
-        if (this._map.zoomControl) {
+        if (this._map.zoomControl && !this.options.separate) {
             L.DomUtil.addClass(this._map.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
         }
     },
