@@ -36,13 +36,11 @@ L.Control.Loading = L.Control.extend({
     },
 
     addLoader: function(id) {
-        // "Add" to the hash of loaders we are tracking
         this._dataLoaders[id] = true;
         this.updateIndicator();
     },
 
     removeLoader: function(id) {
-        // "Subtract" from the hash of loaders we are tracking
         delete this._dataLoaders[id];
         this.updateIndicator();
     },
