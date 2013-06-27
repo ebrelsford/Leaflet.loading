@@ -10,7 +10,7 @@ L.Control.Loading = L.Control.extend({
 
     initialize: function(options) {
         L.setOptions(this, options);
-        this._dataLoaders = 0;
+        this._dataLoaders = {};
     },
 
     onAdd: function(map) {
@@ -33,27 +33,35 @@ L.Control.Loading = L.Control.extend({
         return container;
     },
 
-    addLoader: function() {
-        // Add to the loaders we are tracking
-        this._dataLoaders++;
+    addLoader: function(id) {
+        this._dataLoaders[id] = true;
+        this.updateIndicator();
+    },
 
-        // If there are some loaders, show the indicator
-        if (this._dataLoaders > 0) {
+    removeLoader: function(id) {
+        delete this._dataLoaders[id];
+        this.updateIndicator();
+    },
+
+    updateIndicator: function() {
+        if (this.isLoading()) {
             this._showIndicator();
+        }
+        else {
+            this._hideIndicator();
         }
     },
 
-    removeLoader: function() {
-        // Subtract from the loaders we are tracking
-        this._dataLoaders--;
+    isLoading: function() {
+        return this._countLoaders() > 0;
+    },
 
-        // If there are no loaders left, remove the indicator
-        if (this._dataLoaders <= 0) {
-            // If there is a mismatch don't let the number of loaders
-            // become negative
-            this._dataLoaders = 0;
-            this._hideIndicator();
+    _countLoaders: function() {
+        var size = 0, key;
+        for (key in this._dataLoaders) {
+            if (this._dataLoaders.hasOwnProperty(key)) size++;
         }
+        return size;
     },
 
     _showIndicator: function() {
@@ -90,10 +98,10 @@ L.Map.addInitHook(function () {
     this.on('layeradd', function(e) {
         e.layer.on({
             loading: function(e) {
-                this._map.loadingControl.addLoader();
+                this._map.loadingControl.addLoader(e.target._leaflet_id);
             },
             load: function(e) {
-                this._map.loadingControl.removeLoader();
+                this._map.loadingControl.removeLoader(e.target._leaflet_id);
             },
         });
     });
@@ -102,11 +110,11 @@ L.Map.addInitHook(function () {
     // events, eg, for AJAX calls that affect the map but will not be
     // reflected in the above layer events.
     this.on({
-        dataloading: function(e) {
-            this.loadingControl.addLoader();
+        dataloading: function(data) {
+            this.loadingControl.addLoader(data.id);
         },
-        dataload: function(e) {
-            this.loadingControl.removeLoader();
+        dataload: function(data) {
+            this.loadingControl.removeLoader(data.id);
         },
     });
 });

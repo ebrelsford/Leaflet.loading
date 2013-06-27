@@ -23,4 +23,11 @@ begin loading and `dataload` when you are finished loading. The control tracks
 the number of concurrent loaders, so it is your responsibility to ensure that 
 the `dataloading` and `dataload` are called symmetrically.
 
+
+## License
+
+Leaflet.loading is free software, and may be redistributed under the MIT
+License.
+
+
  [Leaflet]: https://github.com/Leaflet/Leaflet
