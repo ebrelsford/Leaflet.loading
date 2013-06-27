@@ -32,27 +32,34 @@ L.Control.Loading = L.Control.extend({
     addLoader: function(id) {
         // "Add" to the hash of loaders we are tracking
         this._dataLoaders[id] = true;
-
-        // If there are any loaders, show the indicator
-        Object.keys(this._dataLoaders).some(function(key) {
-            if ( this._dataLoaders[key] === true ) {
-                this._showIndicator();
-                return true;
-            }
-        }, this);
+        this.updateIndicator();
     },
 
     removeLoader: function(id) {
         // "Subtract" from the hash of loaders we are tracking
-        this._dataLoaders[id] = false;
+        delete this._dataLoaders[id];
+        this.updateIndicator();
+    },
 
-        // If there are no loaders left, remove the indicator
-        for (var key in this._dataLoaders) {
-            if (this._dataLoaders[key] === true) {
-                return;
-            }
+    updateIndicator: function() {
+        if (this.isLoading()) {
+            this._showIndicator();
         }
-        this._hideIndicator();
+        else {
+            this._hideIndicator();
+        }
+    },
+
+    isLoading: function() {
+        return this._countLoaders() > 0;
+    },
+
+    _countLoaders: function() {
+        var size = 0, key;
+        for (key in this._dataLoaders) {
+            if (this._dataLoaders.hasOwnProperty(key)) size++;
+        }
+        return size;
     },
 
     _showIndicator: function() {
