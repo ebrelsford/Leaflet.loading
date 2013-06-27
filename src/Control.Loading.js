@@ -97,32 +97,15 @@ L.Map.addInitHook(function () {
         });
     });
 
-    // Helper function used below for event handling unification
-    function getIdFromEvent(e, id) {
-        // Handle jQuery event object created from vanilla CustomEvent
-        if ( typeof e.originalEvent !== 'undefined' ) {
-            return e.originalEvent.detail.id;
-        // Handle vanilla CustomEvent object (this will probably never happen)
-        } else if ( typeof e.detail !== 'undefined' ) {
-            return e.detail.id;
-        // Handle jQuery event sent using jQuery .trigger()
-        } else {
-            return id;
-        }
-    }
-
     // Add listeners to the map for (custom) dataloading and dataload
     // events, eg, for AJAX calls that affect the map but will not be
     // reflected in the above layer events.
-    // The use of .on() implies jQuery is a requirement
     this.on({
-        dataloading: function(e, id) {
-            var _id = getIdFromEvent(e, id);
-            this.loadingControl.addLoader(_id);
+        dataloading: function(data) {
+            this.loadingControl.addLoader(data.id);
         },
-        dataload: function(e, id) {
-            var _id = getIdFromEvent(e, id);
-            this.loadingControl.removeLoader(_id);
+        dataload: function(data) {
+            this.loadingControl.removeLoader(data.id);
         },
     });
 });
