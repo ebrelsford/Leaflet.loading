@@ -133,7 +133,7 @@ L.Control.Loading = L.Control.extend({
                 map._layers[index].on({
                     loading: this._handleLoading,
                     load: this._handleLoad,
-                });
+                }, this);
             }
         }
 
@@ -168,10 +168,10 @@ L.Control.Loading = L.Control.extend({
     },
 
     _removeMapListeners: function(map) {
-        map.offn({
+        map.off({
             dataloading: this._handleLoading,
             dataload: this._handleLoad,
-        }, this);
+        });
     },
 });
 
