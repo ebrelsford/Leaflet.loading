@@ -14,9 +14,7 @@ L.Control.Loading = L.Control.extend({
 
     onAdd: function(map) {
         this._addLayerListeners(map);
-
         this._addMapListeners(map);
-
         map.loadingControl = this;
 
         // Create the loading indicator
@@ -87,46 +85,42 @@ L.Control.Loading = L.Control.extend({
     },
 
     _handleLayerLoading: function(e) {
-        var id;
-        if (e.layer) {
-            id = e.layer._leaflet_id;
-        }
-        else {
-            id = e.target._leaflet_id;
-        }
-        this.addLoader(id);
+        // `this` will be a layer object
+        var id = this._map.loadingControl.getEventId(e);
+        this._map.loadingControl.addLoader(id);
     },
 
     _handleLayerLoad: function(e) {
-        var id;
+        // `this` will be a layer object
+        var id = this._map.loadingControl.getEventId(e);
+        this._map.loadingControl.removeLoader(id);
+    },
+
+    getEventId: function(e) {
         if (e.layer) {
-            id = e.layer._leaflet_id;
+            return e.layer._leaflet_id;
         }
-        else {
-            id = e.target._leaflet_id;
-        }
-        this.removeLoader(id);
+        return e.target._leaflet_id;
     },
 
     _addLayerListeners: function(map) {
-        // Add listeners for begin and end of load
-        // to any layers already on the map
+        var layerEventHandlers = {
+            loading: this._handleLayerLoading,
+            load: this._handleLayerLoad,
+        };
+
+        // Add listeners for begin and end of load to any layers already on the 
+        // map
         if (map._layers) {
             for (var index in map._layers) {
-                map._layers[index].on({
-                    loading: this._handleLayerLoading,
-                    load: this._handleLayerLoad,
-                });
+                map._layers[index].on(layerEventHandlers);
             }
         }
 
         // When a layer is added to the map, add listeners for begin and end
         // of load
         map.on('layeradd', function(e) {
-            e.layer.on({
-                loading: this._handleLayerLoading,
-                load: this._handleLayerLoad,
-            }, this);
+            e.layer.on(layerEventHandlers, this);
         }, this);
     },
 
