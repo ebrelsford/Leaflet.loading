@@ -18,11 +18,13 @@ L.Control.Loading = L.Control.extend({
         map.loadingControl = this;
 
         // Create the loading indicator
+        // These classes are no longer used as of Leaflet 0.6
         var classes = 'leaflet-control-loading leaflet-bar-part last';
         var container;
         if (map.zoomControl) {
             // If there is a zoom control, hook into the bottom of it
             container = map.zoomControl._container;
+            // This class is no longer used as of Leaflet 0.6
             classes += ' leaflet-bar-part-bottom';
         }
         else {
