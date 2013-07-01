@@ -39,6 +39,15 @@ L.Control.Loading = L.Control.extend({
         this._removeMapListeners(map);
     },
 
+    removeFrom: function (map) {
+        // Override Control.removeFrom() to avoid clobbering the entire
+        // _container, which is the same as zoomControl's
+        this._container.removeChild(this._indicator);
+        this._map = null;
+        this.onRemove(map);
+        return this;
+    },
+
     addLoader: function(id) {
         this._dataLoaders[id] = true;
         this.updateIndicator();
