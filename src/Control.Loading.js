@@ -139,12 +139,12 @@ L.Control.Loading = L.Control.extend({
                 map._layers[index].off({
                     loading: this._handleLoading,
                     load: this._handleLoad,
-                });
+                }, this);
             }
         }
 
         // Remove layeradd listener from map
-        map.off('layeradd', this._layerAdd);
+        map.off('layeradd', this._layerAdd, this);
     },
 
     _addMapListeners: function(map) {
