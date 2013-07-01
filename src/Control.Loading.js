@@ -15,7 +15,6 @@ L.Control.Loading = L.Control.extend({
     onAdd: function(map) {
         this._addLayerListeners(map);
         this._addMapListeners(map);
-        map.loadingControl = this;
 
         // Create the loading indicator
         // These classes are no longer used as of Leaflet 0.6
@@ -33,6 +32,11 @@ L.Control.Loading = L.Control.extend({
         }
         this._indicator = L.DomUtil.create('a', classes, container);
         return container;
+    },
+
+    onRemove: function(map) {
+        this._removeLayerListeners(map);
+        this._removeMapListeners(map);
     },
 
     addLoader: function(id) {
@@ -86,44 +90,65 @@ L.Control.Loading = L.Control.extend({
         }
     },
 
-    _handleLayerLoading: function(e) {
-        // `this` will be a layer object
-        var id = this._map.loadingControl.getEventId(e);
-        this._map.loadingControl.addLoader(id);
+    _handleLoading: function(e) {
+        // `this` will be the loading control
+        var id = this.getEventId(e);
+        this.addLoader(id);
     },
 
-    _handleLayerLoad: function(e) {
-        // `this` will be a layer object
-        var id = this._map.loadingControl.getEventId(e);
-        this._map.loadingControl.removeLoader(id);
+    _handleLoad: function(e) {
+        // `this` will be the loading control
+        var id = this.getEventId(e);
+        this.removeLoader(id);
     },
 
     getEventId: function(e) {
-        if (e.layer) {
+        if ( e.id ) {
+            return e.id;
+        }
+        else if (e.layer) {
             return e.layer._leaflet_id;
         }
         return e.target._leaflet_id;
     },
 
-    _addLayerListeners: function(map) {
-        var layerEventHandlers = {
-            loading: this._handleLayerLoading,
-            load: this._handleLayerLoad,
-        };
+    _layerAdd: function(e) {
+        e.layer.on({
+            loading: this._handleLoading,
+            load: this._handleLoad,
+        }, this);
+    },
 
+    _addLayerListeners: function(map) {
         // Add listeners for begin and end of load to any layers already on the 
         // map
         if (map._layers) {
             for (var index in map._layers) {
-                map._layers[index].on(layerEventHandlers);
+                map._layers[index].on({
+                    loading: this._handleLoading,
+                    load: this._handleLoad,
+                }, this);
             }
         }
 
         // When a layer is added to the map, add listeners for begin and end
         // of load
-        map.on('layeradd', function(e) {
-            e.layer.on(layerEventHandlers, this);
-        }, this);
+        map.on('layeradd', this._layerAdd, this);
+    },
+
+    _removeLayerListeners: function(map) {
+        // Remove listeners for begin and end of load from all layers
+        if (map._layers) {
+            for (var index in map._layers) {
+                map._layers[index].off({
+                    loading: this._handleLoading,
+                    load: this._handleLoad,
+                });
+            }
+        }
+
+        // Remove layeradd listener from map
+        map.off('layeradd', this._layerAdd);
     },
 
     _addMapListeners: function(map) {
@@ -131,21 +156,24 @@ L.Control.Loading = L.Control.extend({
         // events, eg, for AJAX calls that affect the map but will not be
         // reflected in the above layer events.
         map.on({
-            dataloading: function(data) {
-                this.addLoader(data.id);
-            },
-            dataload: function(data) {
-                this.removeLoader(data.id);
-            },
+            dataloading: this._handleLoading,
+            dataload: this._handleLoad,
         }, this);
+    },
+
+    _removeMapListeners: function(map) {
+        map.off({
+            dataloading: this._handleLoading,
+            dataload: this._handleLoad,
+        });
     },
 });
 
 L.Map.addInitHook(function () {
-    if (!this.options.loadingControl) return;
-
-    // Create and add the control to the map
-    this.addControl(L.Control.loading());
+    if (this.options.loadingControl) {
+        this.loadingControl = new L.Control.Loading();
+        this.addControl(this.loadingControl);
+}
 });
 
 L.Control.loading = function(options) {
