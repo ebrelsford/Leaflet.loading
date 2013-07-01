@@ -112,13 +112,11 @@ L.Control.Loading = L.Control.extend({
         return e.target._leaflet_id;
     },
 
-    _layerEventHandlers: {
-        loading: this._handleLoading,
-        load: this._handleLoad,
-    },
-
     _layerAdd: function(e) {
-        e.layer.on(this._layerEventHandlers, this);
+        e.layer.on({
+            loading: this._handleLoading,
+            load: this._handleLoad,
+        }, this);
     },
 
     _addLayerListeners: function(map) {
@@ -126,7 +124,10 @@ L.Control.Loading = L.Control.extend({
         // map
         if (map._layers) {
             for (var index in map._layers) {
-                map._layers[index].on(this._layerEventHandlers, this);
+                map._layers[index].on({
+                    loading: this._handleLoading,
+                    load: this._handleLoad,
+                }, this);
             }
         }
 
@@ -139,7 +140,10 @@ L.Control.Loading = L.Control.extend({
         // Remove listeners for begin and end of load from all layers
         if (map._layers) {
             for (var index in map._layers) {
-                map._layers[index].off(this._layerEventHandlers);
+                map._layers[index].off({
+                    loading: this._handleLoading,
+                    load: this._handleLoad,
+                });
             }
         }
 
