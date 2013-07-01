@@ -31,7 +31,8 @@ L.Control.Loading = L.Control.extend({
             container = L.DomUtil.create('div', 'leaflet-control-zoom');
         }
         if (!this.options.separate) {
-            // If a separate control hasn't been requested, style like the zoom control
+            // If a separate control hasn't been requested, style like the zoom 
+            // control
             classes += ' leaflet-bar-part last leaflet-bar-part-bottom';
         }
         this._indicator = L.DomUtil.create('a', classes, container);
