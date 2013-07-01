@@ -91,19 +91,15 @@ L.Control.Loading = L.Control.extend({
     },
 
     _handleLoading: function(e) {
-        // `this` will be the loading control
-        var id = this.getEventId(e);
-        this.addLoader(id);
+        this.addLoader(this.getEventId(e));
     },
 
     _handleLoad: function(e) {
-        // `this` will be the loading control
-        var id = this.getEventId(e);
-        this.removeLoader(id);
+        this.removeLoader(this.getEventId(e));
     },
 
     getEventId: function(e) {
-        if ( e.id ) {
+        if (e.id) {
             return e.id;
         }
         else if (e.layer) {
@@ -165,7 +161,7 @@ L.Control.Loading = L.Control.extend({
         map.off({
             dataloading: this._handleLoading,
             dataload: this._handleLoad,
-        });
+        }, this);
     },
 });
 
@@ -173,7 +169,7 @@ L.Map.addInitHook(function () {
     if (this.options.loadingControl) {
         this.loadingControl = new L.Control.Loading();
         this.addControl(this.loadingControl);
-}
+    }
 });
 
 L.Control.loading = function(options) {
