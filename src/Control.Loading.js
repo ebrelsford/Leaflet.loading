@@ -23,17 +23,12 @@ L.Control.Loading = L.Control.extend({
         if (map.zoomControl && !this.options.separate) {
             // If there is a zoom control, hook into the bottom of it
             container = map.zoomControl._container;
-            // This class is no longer used as of Leaflet 0.6
+            // These classes are no longer used as of Leaflet 0.6
             classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
         }
         else {
             // Otherwise, create a container for the indicator
-            container = L.DomUtil.create('div', 'leaflet-control-zoom');
-        }
-        if (!this.options.separate) {
-            // If a separate control hasn't been requested, style like the zoom 
-            // control
-            classes += ' leaflet-bar-part last leaflet-bar-part-bottom';
+            container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
         }
         this._indicator = L.DomUtil.create('a', classes, container);
         return container;
