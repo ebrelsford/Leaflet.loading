@@ -53,7 +53,7 @@ L.Control.Loading = L.Control.extend({
     },
 
     removeFrom: function (map) {
-        if (map.zoomControl && !this.options.separate) {
+        if (this.zoomControl && !this.options.separate) {
             // Override Control.removeFrom() to avoid clobbering the entire
             // _container, which is the same as zoomControl's
             this._container.removeChild(this._indicator);
