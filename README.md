@@ -23,6 +23,16 @@ begin loading and `dataload` when you are finished loading. The control tracks
 the number of concurrent loaders, so it is your responsibility to ensure that 
 the `dataloading` and `dataload` are called symmetrically.
 
+### Options
+
+ - **position**: (string) Where you want the control to show up on the map (standard
+   Leaflet control option). Optional, defaults to `topleft`
+ - **separate**: (boolean) Whether the control should be separate from the zoom
+   control or not, defaults to false.
+ - **zoomControl**: (L.Control.Zoom) The zoom control that the control should be
+   added to. This is only necessary when adding a loading control to a zoom 
+   control that you added manually and do not want a separate loading control.
+
 
 ## License
 

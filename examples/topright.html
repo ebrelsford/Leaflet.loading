@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet.loading example&mdash;topright</title>
+
+
+        <!-- Include Leaflet -->
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.ie.css" />
+        <![endif]-->
+        <script src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+
+
+        <!-- Include the loading control -->
+        <link rel="stylesheet" href="../src/Control.Loading.css" />
+        <script src="../src/Control.Loading.js"></script>
+    </head>
+    <body>
+
+        <div id="map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+
+        <script>
+            var cloudmadeKey = '781b27aa166a49e1a398cd9b38a81cdf',
+                cloudmadeStyle = '96818',
+                cloudmadeUrl = 'http://{s}.tile.cloudmade.com/' + cloudmadeKey + 
+                    '/' + cloudmadeStyle + '/256/{z}/{x}/{y}.png',
+                cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18}),
+
+                map = new L.Map('map', {
+                    layers: [cloudmade],
+                    center: new L.LatLng(40.65,-73.95),
+                    zoom: 12,
+                    zoomControl: false,
+                });
+
+                // Add our zoom control manually where we want to
+                var zoomControl = L.control.zoom({
+                    position: 'topright',
+                });
+                map.addControl(zoomControl);
+
+                // Add our loading control in the same position and pass the 
+                // zoom control to attach to it
+                var loadingControl = L.Control.loading({
+                    position: 'topright',
+                    zoomControl: zoomControl,
+                });
+                map.addControl(loadingControl);
+        </script>
+    </body>
+</html>

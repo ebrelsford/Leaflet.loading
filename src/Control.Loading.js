@@ -6,23 +6,36 @@ L.Control.Loading = L.Control.extend({
     options: {
         position: 'topleft',
         separate: false,
+        zoomControl: null,
     },
 
     initialize: function(options) {
         L.setOptions(this, options);
         this._dataLoaders = {};
+
+        // Try to set the zoom control this control is attached to from the 
+        // options
+        if (this.options.zoomControl !== null) {
+            this.zoomControl = this.options.zoomControl;
+        }
     },
 
     onAdd: function(map) {
         this._addLayerListeners(map);
         this._addMapListeners(map);
 
+        // Try to set the zoom control this control is attached to from the map
+        // the control is being added to
+        if (!this.options.separate && !this.zoomControl) {
+            this.zoomControl = map.zoomControl;
+        }
+
         // Create the loading indicator
         var classes = 'leaflet-control-loading';
         var container;
-        if (map.zoomControl && !this.options.separate) {
+        if (this.zoomControl && !this.options.separate) {
             // If there is a zoom control, hook into the bottom of it
-            container = map.zoomControl._container;
+            container = this.zoomControl._container;
             // These classes are no longer used as of Leaflet 0.6
             classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
         }
@@ -83,9 +96,9 @@ L.Control.Loading = L.Control.extend({
         // Show loading indicator
         L.DomUtil.addClass(this._indicator, 'is-loading');
 
-        // If map.zoomControl exists, make the zoom-out button not last
-        if (this._map.zoomControl && !this.options.separate) {
-            L.DomUtil.removeClass(this._map.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+        // If zoomControl exists, make the zoom-out button not last
+        if (this.zoomControl && !this.options.separate) {
+            L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
         }
     },
 
@@ -93,9 +106,9 @@ L.Control.Loading = L.Control.extend({
         // Hide loading indicator
         L.DomUtil.removeClass(this._indicator, 'is-loading');
 
-        // If map.zoomControl exists, make the zoom-out button last
-        if (this._map.zoomControl && !this.options.separate) {
-            L.DomUtil.addClass(this._map.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+        // If zoomControl exists, make the zoom-out button last
+        if (this.zoomControl && !this.options.separate) {
+            L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
         }
     },
 
