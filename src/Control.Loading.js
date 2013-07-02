@@ -40,12 +40,19 @@ L.Control.Loading = L.Control.extend({
     },
 
     removeFrom: function (map) {
-        // Override Control.removeFrom() to avoid clobbering the entire
-        // _container, which is the same as zoomControl's
-        this._container.removeChild(this._indicator);
-        this._map = null;
-        this.onRemove(map);
-        return this;
+        if (map.zoomControl && !this.options.separate) {
+            // Override Control.removeFrom() to avoid clobbering the entire
+            // _container, which is the same as zoomControl's
+            this._container.removeChild(this._indicator);
+            this._map = null;
+            this.onRemove(map);
+            return this;
+        }
+        else {
+            // If this control is separate from the zoomControl, call the
+            // parent method so we don't leave behind an empty container
+            return L.Control.prototype.removeFrom.call(this, map);
+        }
     },
 
     addLoader: function(id) {
