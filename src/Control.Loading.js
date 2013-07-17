@@ -6,7 +6,7 @@ L.Control.Loading = L.Control.extend({
     options: {
         position: 'topleft',
         separate: false,
-        zoomControl: null,
+        zoomControl: null
     },
 
     initialize: function(options) {
@@ -140,7 +140,7 @@ L.Control.Loading = L.Control.extend({
     _layerAdd: function(e) {
         e.layer.on({
             loading: this._handleLoading,
-            load: this._handleLoad,
+            load: this._handleLoad
         }, this);
     },
 
@@ -151,7 +151,7 @@ L.Control.Loading = L.Control.extend({
             for (var index in map._layers) {
                 map._layers[index].on({
                     loading: this._handleLoading,
-                    load: this._handleLoad,
+                    load: this._handleLoad
                 }, this);
             }
         }
@@ -167,7 +167,7 @@ L.Control.Loading = L.Control.extend({
             for (var index in map._layers) {
                 map._layers[index].off({
                     loading: this._handleLoading,
-                    load: this._handleLoad,
+                    load: this._handleLoad
                 }, this);
             }
         }
@@ -182,16 +182,16 @@ L.Control.Loading = L.Control.extend({
         // reflected in the above layer events.
         map.on({
             dataloading: this._handleLoading,
-            dataload: this._handleLoad,
+            dataload: this._handleLoad
         }, this);
     },
 
     _removeMapListeners: function(map) {
         map.off({
             dataloading: this._handleLoading,
-            dataload: this._handleLoad,
+            dataload: this._handleLoad
         }, this);
-    },
+    }
 });
 
 L.Map.addInitHook(function () {
