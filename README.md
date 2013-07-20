@@ -34,6 +34,17 @@ the `dataloading` and `dataload` are called symmetrically.
    control that you added manually and do not want a separate loading control.
 
 
+## Demos
+
+See Leaflet.loading in action:
+
+ - Using the [simplest setup][simple], with the loading indicator attached to
+   the zoom control.
+ - With the loading indicator [separate][] from the zoom control.
+ - With the loading indicator and zoom control on the [top right][topright] of
+   the map.
+
+
 ## License
 
 Leaflet.loading is free software, and may be redistributed under the MIT
@@ -41,3 +52,6 @@ License.
 
 
  [Leaflet]: https://github.com/Leaflet/Leaflet
+ [simple]: http://ebrelsford.github.io/Leaflet.loading/simple.html
+ [separate]: http://ebrelsford.github.io/Leaflet.loading/separate.html
+ [topright]: http://ebrelsford.github.io/Leaflet.loading/topright.html
