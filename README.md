@@ -36,7 +36,7 @@ the `dataloading` and `dataload` are called symmetrically.
 
 ## Demos
 
-See Leaflet.loading in action:
+See Leaflet.loading in action (zoom or pan to make tiles load):
 
  - Using the [simplest setup][simple], with the loading indicator attached to
    the zoom control.
