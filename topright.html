@@ -39,12 +39,12 @@
                     layers: [cloudmade],
                     center: new L.LatLng(40.65,-73.95),
                     zoom: 12,
-                    zoomControl: false,
+                    zoomControl: false
                 });
 
                 // Add our zoom control manually where we want to
                 var zoomControl = L.control.zoom({
-                    position: 'topright',
+                    position: 'topright'
                 });
                 map.addControl(zoomControl);
 
@@ -52,7 +52,7 @@
                 // zoom control to attach to it
                 var loadingControl = L.Control.loading({
                     position: 'topright',
-                    zoomControl: zoomControl,
+                    zoomControl: zoomControl
                 });
                 map.addControl(loadingControl);
         </script>
