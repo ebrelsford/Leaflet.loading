@@ -138,6 +138,7 @@ L.Control.Loading = L.Control.extend({
     },
 
     _layerAdd: function(e) {
+        if (!e.layer || !e.layer.on) return
         e.layer.on({
             loading: this._handleLoading,
             load: this._handleLoad
@@ -147,14 +148,13 @@ L.Control.Loading = L.Control.extend({
     _addLayerListeners: function(map) {
         // Add listeners for begin and end of load to any layers already on the 
         // map
-        if (map._layers) {
-            for (var index in map._layers) {
-                map._layers[index].on({
-                    loading: this._handleLoading,
-                    load: this._handleLoad
-                }, this);
-            }
-        }
+        map.eachLayer(function(layer) {
+            if (!layer.on) return;
+            layer.on({
+                loading: this._handleLoading,
+                load: this._handleLoad
+            }, this);
+        }, this);
 
         // When a layer is added to the map, add listeners for begin and end
         // of load
@@ -163,14 +163,13 @@ L.Control.Loading = L.Control.extend({
 
     _removeLayerListeners: function(map) {
         // Remove listeners for begin and end of load from all layers
-        if (map._layers) {
-            for (var index in map._layers) {
-                map._layers[index].off({
-                    loading: this._handleLoading,
-                    load: this._handleLoad
-                }, this);
-            }
-        }
+        map.eachLayer(function(layer) {
+            if (!layer.off) return;
+            layer.off({
+                loading: this._handleLoading,
+                load: this._handleLoad
+            }, this);
+        }, this);
 
         // Remove layeradd listener from map
         map.off('layeradd', this._layerAdd, this);
