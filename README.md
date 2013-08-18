@@ -9,6 +9,9 @@ firing custom events on a map.
 
 ## Usage
 
+Leaflet.loading is only tested on Leaflet version 0.6 or greater. It will almost
+certainly not work with older versions of Leaflet.
+
 Include `Control.Loading.js` and create a map with `loadingControl: true` in its
 options. Then style your loading indicator. `Control.Loading.css` contains a 
 start in this direction. The simplest case would be adding a 16 x 16 loading gif
