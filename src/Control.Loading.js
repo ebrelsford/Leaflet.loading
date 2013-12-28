@@ -2,204 +2,222 @@
  * L.Control.Loading is a control that shows a loading indicator when tiles are
  * loading or when map-related AJAX requests are taking place.
  */
-L.Control.Loading = L.Control.extend({
-    options: {
-        position: 'topleft',
-        separate: false,
-        zoomControl: null
-    },
 
-    initialize: function(options) {
-        L.setOptions(this, options);
-        this._dataLoaders = {};
+(function () {
 
-        // Try to set the zoom control this control is attached to from the 
-        // options
-        if (this.options.zoomControl !== null) {
-            this.zoomControl = this.options.zoomControl;
-        }
-    },
+    function defineLeafletLoading(L) {
+        L.Control.Loading = L.Control.extend({
+            options: {
+                position: 'topleft',
+                separate: false,
+                zoomControl: null
+            },
 
-    onAdd: function(map) {
-        this._addLayerListeners(map);
-        this._addMapListeners(map);
+            initialize: function(options) {
+                L.setOptions(this, options);
+                this._dataLoaders = {};
 
-        // Try to set the zoom control this control is attached to from the map
-        // the control is being added to
-        if (!this.options.separate && !this.zoomControl) {
-            this.zoomControl = map.zoomControl;
-        }
+                // Try to set the zoom control this control is attached to from the 
+                // options
+                if (this.options.zoomControl !== null) {
+                    this.zoomControl = this.options.zoomControl;
+                }
+            },
 
-        // Create the loading indicator
-        var classes = 'leaflet-control-loading';
-        var container;
-        if (this.zoomControl && !this.options.separate) {
-            // If there is a zoom control, hook into the bottom of it
-            container = this.zoomControl._container;
-            // These classes are no longer used as of Leaflet 0.6
-            classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
-        }
-        else {
-            // Otherwise, create a container for the indicator
-            container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
-        }
-        this._indicator = L.DomUtil.create('a', classes, container);
-        return container;
-    },
+            onAdd: function(map) {
+                this._addLayerListeners(map);
+                this._addMapListeners(map);
 
-    onRemove: function(map) {
-        this._removeLayerListeners(map);
-        this._removeMapListeners(map);
-    },
+                // Try to set the zoom control this control is attached to from the map
+                // the control is being added to
+                if (!this.options.separate && !this.zoomControl) {
+                    this.zoomControl = map.zoomControl;
+                }
 
-    removeFrom: function (map) {
-        if (this.zoomControl && !this.options.separate) {
-            // Override Control.removeFrom() to avoid clobbering the entire
-            // _container, which is the same as zoomControl's
-            this._container.removeChild(this._indicator);
-            this._map = null;
-            this.onRemove(map);
-            return this;
-        }
-        else {
-            // If this control is separate from the zoomControl, call the
-            // parent method so we don't leave behind an empty container
-            return L.Control.prototype.removeFrom.call(this, map);
-        }
-    },
+                // Create the loading indicator
+                var classes = 'leaflet-control-loading';
+                var container;
+                if (this.zoomControl && !this.options.separate) {
+                    // If there is a zoom control, hook into the bottom of it
+                    container = this.zoomControl._container;
+                    // These classes are no longer used as of Leaflet 0.6
+                    classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
+                }
+                else {
+                    // Otherwise, create a container for the indicator
+                    container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
+                }
+                this._indicator = L.DomUtil.create('a', classes, container);
+                return container;
+            },
 
-    addLoader: function(id) {
-        this._dataLoaders[id] = true;
-        this.updateIndicator();
-    },
+            onRemove: function(map) {
+                this._removeLayerListeners(map);
+                this._removeMapListeners(map);
+            },
 
-    removeLoader: function(id) {
-        delete this._dataLoaders[id];
-        this.updateIndicator();
-    },
+            removeFrom: function (map) {
+                if (this.zoomControl && !this.options.separate) {
+                    // Override Control.removeFrom() to avoid clobbering the entire
+                    // _container, which is the same as zoomControl's
+                    this._container.removeChild(this._indicator);
+                    this._map = null;
+                    this.onRemove(map);
+                    return this;
+                }
+                else {
+                    // If this control is separate from the zoomControl, call the
+                    // parent method so we don't leave behind an empty container
+                    return L.Control.prototype.removeFrom.call(this, map);
+                }
+            },
 
-    updateIndicator: function() {
-        if (this.isLoading()) {
-            this._showIndicator();
-        }
-        else {
-            this._hideIndicator();
-        }
-    },
+            addLoader: function(id) {
+                this._dataLoaders[id] = true;
+                this.updateIndicator();
+            },
 
-    isLoading: function() {
-        return this._countLoaders() > 0;
-    },
+            removeLoader: function(id) {
+                delete this._dataLoaders[id];
+                this.updateIndicator();
+            },
 
-    _countLoaders: function() {
-        var size = 0, key;
-        for (key in this._dataLoaders) {
-            if (this._dataLoaders.hasOwnProperty(key)) size++;
-        }
-        return size;
-    },
+            updateIndicator: function() {
+                if (this.isLoading()) {
+                    this._showIndicator();
+                }
+                else {
+                    this._hideIndicator();
+                }
+            },
 
-    _showIndicator: function() {
-        // Show loading indicator
-        L.DomUtil.addClass(this._indicator, 'is-loading');
+            isLoading: function() {
+                return this._countLoaders() > 0;
+            },
 
-        // If zoomControl exists, make the zoom-out button not last
-        if (this.zoomControl && !this.options.separate) {
-            L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
-        }
-    },
+            _countLoaders: function() {
+                var size = 0, key;
+                for (key in this._dataLoaders) {
+                    if (this._dataLoaders.hasOwnProperty(key)) size++;
+                }
+                return size;
+            },
 
-    _hideIndicator: function() {
-        // Hide loading indicator
-        L.DomUtil.removeClass(this._indicator, 'is-loading');
+            _showIndicator: function() {
+                // Show loading indicator
+                L.DomUtil.addClass(this._indicator, 'is-loading');
 
-        // If zoomControl exists, make the zoom-out button last
-        if (this.zoomControl && !this.options.separate) {
-            L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
-        }
-    },
+                // If zoomControl exists, make the zoom-out button not last
+                if (this.zoomControl && !this.options.separate) {
+                    L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                }
+            },
 
-    _handleLoading: function(e) {
-        this.addLoader(this.getEventId(e));
-    },
+            _hideIndicator: function() {
+                // Hide loading indicator
+                L.DomUtil.removeClass(this._indicator, 'is-loading');
 
-    _handleLoad: function(e) {
-        this.removeLoader(this.getEventId(e));
-    },
+                // If zoomControl exists, make the zoom-out button last
+                if (this.zoomControl && !this.options.separate) {
+                    L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                }
+            },
 
-    getEventId: function(e) {
-        if (e.id) {
-            return e.id;
-        }
-        else if (e.layer) {
-            return e.layer._leaflet_id;
-        }
-        return e.target._leaflet_id;
-    },
+            _handleLoading: function(e) {
+                this.addLoader(this.getEventId(e));
+            },
 
-    _layerAdd: function(e) {
-        if (!e.layer || !e.layer.on) return
-        e.layer.on({
-            loading: this._handleLoading,
-            load: this._handleLoad
-        }, this);
-    },
+            _handleLoad: function(e) {
+                this.removeLoader(this.getEventId(e));
+            },
 
-    _addLayerListeners: function(map) {
-        // Add listeners for begin and end of load to any layers already on the 
-        // map
-        map.eachLayer(function(layer) {
-            if (!layer.on) return;
-            layer.on({
-                loading: this._handleLoading,
-                load: this._handleLoad
-            }, this);
-        }, this);
+            getEventId: function(e) {
+                if (e.id) {
+                    return e.id;
+                }
+                else if (e.layer) {
+                    return e.layer._leaflet_id;
+                }
+                return e.target._leaflet_id;
+            },
 
-        // When a layer is added to the map, add listeners for begin and end
-        // of load
-        map.on('layeradd', this._layerAdd, this);
-    },
+            _layerAdd: function(e) {
+                if (!e.layer || !e.layer.on) return
+                e.layer.on({
+                    loading: this._handleLoading,
+                    load: this._handleLoad
+                }, this);
+            },
 
-    _removeLayerListeners: function(map) {
-        // Remove listeners for begin and end of load from all layers
-        map.eachLayer(function(layer) {
-            if (!layer.off) return;
-            layer.off({
-                loading: this._handleLoading,
-                load: this._handleLoad
-            }, this);
-        }, this);
+            _addLayerListeners: function(map) {
+                // Add listeners for begin and end of load to any layers already on the 
+                // map
+                map.eachLayer(function(layer) {
+                    if (!layer.on) return;
+                    layer.on({
+                        loading: this._handleLoading,
+                        load: this._handleLoad
+                    }, this);
+                }, this);
 
-        // Remove layeradd listener from map
-        map.off('layeradd', this._layerAdd, this);
-    },
+                // When a layer is added to the map, add listeners for begin and end
+                // of load
+                map.on('layeradd', this._layerAdd, this);
+            },
 
-    _addMapListeners: function(map) {
-        // Add listeners to the map for (custom) dataloading and dataload
-        // events, eg, for AJAX calls that affect the map but will not be
-        // reflected in the above layer events.
-        map.on({
-            dataloading: this._handleLoading,
-            dataload: this._handleLoad
-        }, this);
-    },
+            _removeLayerListeners: function(map) {
+                // Remove listeners for begin and end of load from all layers
+                map.eachLayer(function(layer) {
+                    if (!layer.off) return;
+                    layer.off({
+                        loading: this._handleLoading,
+                        load: this._handleLoad
+                    }, this);
+                }, this);
 
-    _removeMapListeners: function(map) {
-        map.off({
-            dataloading: this._handleLoading,
-            dataload: this._handleLoad
-        }, this);
+                // Remove layeradd listener from map
+                map.off('layeradd', this._layerAdd, this);
+            },
+
+            _addMapListeners: function(map) {
+                // Add listeners to the map for (custom) dataloading and dataload
+                // events, eg, for AJAX calls that affect the map but will not be
+                // reflected in the above layer events.
+                map.on({
+                    dataloading: this._handleLoading,
+                    dataload: this._handleLoad
+                }, this);
+            },
+
+            _removeMapListeners: function(map) {
+                map.off({
+                    dataloading: this._handleLoading,
+                    dataload: this._handleLoad
+                }, this);
+            }
+        });
+
+        L.Map.addInitHook(function () {
+            if (this.options.loadingControl) {
+                this.loadingControl = new L.Control.Loading();
+                this.addControl(this.loadingControl);
+            }
+        });
+
+        L.Control.loading = function(options) {
+            return new L.Control.Loading(options);
+        };
     }
-});
 
-L.Map.addInitHook(function () {
-    if (this.options.loadingControl) {
-        this.loadingControl = new L.Control.Loading();
-        this.addControl(this.loadingControl);
+    if (typeof define === 'function' && define.amd) {
+        // Try to add leaflet.loading to Leaflet using AMD
+        define(['leaflet'], function (L) {
+            defineLeafletLoading(L);
+        });
     }
-});
+    else {
+        // Else use the global L
+        defineLeafletLoading(L);
+    }
 
-L.Control.loading = function(options) {
-    return new L.Control.Loading(options);
-};
+})();
