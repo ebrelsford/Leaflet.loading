@@ -1,6 +1,6 @@
 {
   "name": "Leaflet.loading",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "homepage": "https://github.com/ebrelsford/leaflet.loading",
   "authors": [
     "Eric Brelsford <ebrelsford@gmail.com>"
@@ -14,7 +14,7 @@
     "loading"
   ],
   "dependencies": {
-      "leaflet": "0.6.x"
+      "leaflet": ">=0.6"
   },
   "license": "MIT",
   "ignore": [
