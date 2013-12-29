@@ -12,3 +12,5 @@ Your pull requests are very welcome! Please follow these guidelines:
 
  * [Eric Brelsford](https://github.com/ebrelsford)
  * [Nick Iaconis](https://github.com/codefox421)
+ * [Matthias Althaus](https://github.com/althaus)
+ * [Yohan Boniface](https://github.com/yohanboniface)
