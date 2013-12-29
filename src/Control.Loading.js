@@ -185,14 +185,16 @@
                 // reflected in the above layer events.
                 map.on({
                     dataloading: this._handleLoading,
-                    dataload: this._handleLoad
+                    dataload: this._handleLoad,
+                    layerremove: this._handleLoad
                 }, this);
             },
 
             _removeMapListeners: function(map) {
                 map.off({
                     dataloading: this._handleLoading,
-                    dataload: this._handleLoad
+                    dataload: this._handleLoad,
+                    layerremove: this._handleLoad
                 }, this);
             }
         });
