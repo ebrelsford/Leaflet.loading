@@ -31,7 +31,11 @@
                 // Try to set the zoom control this control is attached to from the map
                 // the control is being added to
                 if (!this.options.separate && !this.zoomControl) {
-                    this.zoomControl = map.zoomControl;
+					if (map.zoomControl) {
+						this.zoomControl = map.zoomControl;
+					} else if (map.zoomsliderControl) {
+						this.zoomControl = map.zoomsliderControl;
+					}
                 }
 
                 // Create the loading indicator
@@ -108,8 +112,13 @@
                 L.DomUtil.addClass(this._indicator, 'is-loading');
 
                 // If zoomControl exists, make the zoom-out button not last
-                if (this.zoomControl && !this.options.separate) {
-                    L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                if (!this.options.separate) {
+					if (typeof L.Control.Zoom === 'function' && this.zoomControl instanceof L.Control.Zoom) {
+						L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+					}
+					else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
+						L.DomUtil.removeClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
+					}
                 }
             },
 
@@ -118,8 +127,13 @@
                 L.DomUtil.removeClass(this._indicator, 'is-loading');
 
                 // If zoomControl exists, make the zoom-out button last
-                if (this.zoomControl && !this.options.separate) {
-                    L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                if (!this.options.separate) {
+					if (typeof L.Control.Zoom === 'function' && this.zoomControl instanceof L.Control.Zoom) {
+						L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+					}
+					else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
+						L.DomUtil.addClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
+					}
                 }
             },
 
