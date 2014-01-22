@@ -14,3 +14,4 @@ Your pull requests are very welcome! Please follow these guidelines:
  * [Nick Iaconis](https://github.com/codefox421)
  * [Matthias Althaus](https://github.com/althaus)
  * [Yohan Boniface](https://github.com/yohanboniface)
+ * [kermit-the-frog](https://github.com/kermit-the-frog)
