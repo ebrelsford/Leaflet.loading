@@ -15,3 +15,4 @@ Your pull requests are very welcome! Please follow these guidelines:
  * [Matthias Althaus](https://github.com/althaus)
  * [Yohan Boniface](https://github.com/yohanboniface)
  * [kermit-the-frog](https://github.com/kermit-the-frog)
+ * [kcwu](https://github.com/kcwu)
