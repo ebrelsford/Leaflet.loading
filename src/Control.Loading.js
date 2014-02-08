@@ -200,7 +200,6 @@
                 map.on({
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
-                    layeradd: this._handleLoading,
                     layerremove: this._handleLoad
                 }, this);
             },
@@ -209,7 +208,6 @@
                 map.off({
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
-                    layeradd: this._handleLoading,
                     layerremove: this._handleLoad
                 }, this);
             }
