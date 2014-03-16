@@ -157,10 +157,16 @@
 
             _layerAdd: function(e) {
                 if (!e.layer || !e.layer.on) return
-                e.layer.on({
-                    loading: this._handleLoading,
-                    load: this._handleLoad
-                }, this);
+                try {
+                    e.layer.on({
+                        loading: this._handleLoading,
+                        load: this._handleLoad
+                    }, this);
+                catch (exception) {
+                    console.warn('L.Control.Loading: Tried and failed to add ' +
+                                 ' event handlers to layer', e.layer);
+                    console.warn('L.Control.Loading: Full details', exception);
+                }
             },
 
             _addLayerListeners: function(map) {
