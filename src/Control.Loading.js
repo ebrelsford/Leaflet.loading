@@ -162,6 +162,7 @@
                         loading: this._handleLoading,
                         load: this._handleLoad
                     }, this);
+                }
                 catch (exception) {
                     console.warn('L.Control.Loading: Tried and failed to add ' +
                                  ' event handlers to layer', e.layer);
