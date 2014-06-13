@@ -3,14 +3,9 @@
     <head>
         <title>Leaflet.loading example&mdash;simple</title>
 
-
         <!-- Include Leaflet -->
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
-        <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.ie.css" />
-        <![endif]-->
-        <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
-
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
         <!-- Include the loading control -->
         <link rel="stylesheet" href="../src/Control.Loading.css" />
@@ -21,14 +16,12 @@
         <div id="map" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
 
         <script>
-            var cloudmadeKey = '781b27aa166a49e1a398cd9b38a81cdf',
-                cloudmadeStyle = '96818',
-                cloudmadeUrl = 'http://{s}.tile.cloudmade.com/' + cloudmadeKey + 
-                    '/' + cloudmadeStyle + '/256/{z}/{x}/{y}.png',
-                cloudmade = new L.TileLayer(cloudmadeUrl, {maxZoom: 18}),
+                var openStreetMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }),
 
                 map = new L.Map('map', {
-                    layers: [cloudmade],
+                    layers: [openStreetMap],
                     center: new L.LatLng(40.65,-73.95),
                     zoom: 12,
 
