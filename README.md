@@ -67,7 +67,7 @@ See Leaflet.loading in action (zoom or pan to make tiles load):
  - With the loading indicator [separate][] from the zoom control.
  - With the loading indicator and zoom control on the [top right][topright] of
    the map.
- - The simplest example using [spin.js][] instead of an image
+ - The [simplest example using spin.js](http://ebrelsford.github.io/Leaflet.loading/spinjs.html) instead of an image
 
 
 ## License
@@ -81,4 +81,3 @@ License.
  [simple]: http://ebrelsford.github.io/Leaflet.loading/simple.html
  [separate]: http://ebrelsford.github.io/Leaflet.loading/separate.html
  [topright]: http://ebrelsford.github.io/Leaflet.loading/topright.html
- [spin.js]: http://ebrelsford.github.io/Leaflet.loading/spinjs.html
