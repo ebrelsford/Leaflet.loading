@@ -10,7 +10,16 @@
             options: {
                 position: 'topleft',
                 separate: false,
-                zoomControl: null
+                zoomControl: null,
+                spinjs: false,
+                spin: { 
+                  lines: 7, 
+                  length: 3, 
+                  width: 3, 
+                  radius: 5, 
+                  rotate: 13, 
+                  top: "83%"
+                }
             },
 
             initialize: function(options) {
@@ -25,6 +34,7 @@
             },
 
             onAdd: function(map) {
+                if ((this.options.spinjs) && (typeof Spinner !== 'function')) return console.error('Leaflet.loading cannot load because you didn\'t load spin.js (http://fgnass.github.io/spin.js/), even though you set it in options');
                 this._addLayerListeners(map);
                 this._addMapListeners(map);
 
@@ -52,6 +62,10 @@
                     container = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar');
                 }
                 this._indicator = L.DomUtil.create('a', classes, container);
+                if(this.options.spinjs) {
+                  this._spinner = new Spinner(this.options.spin).spin();
+                  this._indicator.appendChild(this._spinner.el);
+                }
                 return container;
             },
 
