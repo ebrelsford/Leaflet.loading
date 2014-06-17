@@ -45,6 +45,7 @@ the `dataloading` and `dataload` are called symmetrically.
    control that you added manually and do not want a separate loading control.
  - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to `false`
  - **spin**: (object) A [spin.js][] options object. Optional, defaults to 
+
     ```JSON
     { 
         lines: 7,
