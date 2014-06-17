@@ -3,8 +3,7 @@
   "version": "0.1.12",
   "homepage": "https://github.com/ebrelsford/leaflet.loading",
   "authors": [
-    "Eric Brelsford <ebrelsford@gmail.com>",
-    "Robbie Trencheny <me@robbiet.us>"
+    "Eric Brelsford <ebrelsford@gmail.com>"
   ],
   "description": "A loading-indicator control for Leaflet",
   "main": "src/Control.Loading.js",
