@@ -46,7 +46,7 @@ the `dataloading` and `dataload` are called symmetrically.
  - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to `false`
  - **spin**: (object) A [spin.js][] options object. Optional, defaults to 
 
-    ```JSON
+    ```
     { 
         lines: 7,
         length: 3,
