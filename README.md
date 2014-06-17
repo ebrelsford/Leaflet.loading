@@ -44,7 +44,17 @@ the `dataloading` and `dataload` are called symmetrically.
    added to. This is only necessary when adding a loading control to a zoom 
    control that you added manually and do not want a separate loading control.
  - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to `false`
- - **spin**: (object) A [spin.js][] options object. Optional, defaults to `{ lines: 7, length: 3, width: 3, radius: 5, rotate: 13, top: "83%" }`
+ - **spin**: (object) A [spin.js][] options object. Optional, defaults to 
+    ```JSON
+    { 
+        lines: 7,
+        length: 3,
+        width: 3,
+        radius: 5,
+        rotate: 13,
+        top: "83%" 
+    }
+    ```
 
 
 ## Demos
