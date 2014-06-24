@@ -21,7 +21,7 @@ in `.leaflet-control-loading`.
 
 You can also set `spinjs: true` in the options, and load [spin.js][] 
 to use that instead of an image. A spin.js options object can be passed as the spin key 
-when initializing the control.
+when initializing the control. It is suggested that you comment `background: url();` in Control.Loading.css to surpress a MIME Type warning in dev tools (Resource interpreted as Image but transferred with MIME type text/css)
 
 Whichever method you use, make sure you only use one.
 
