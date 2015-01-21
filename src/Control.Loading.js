@@ -130,7 +130,7 @@
                 // If zoomControl exists, make the zoom-out button not last
                 if (!this.options.separate) {
                     if (this.zoomControl instanceof L.Control.Zoom) {
-                        L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                        L.DomUtil.removeClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                     }
                     else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
                         L.DomUtil.removeClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
@@ -145,12 +145,26 @@
                 // If zoomControl exists, make the zoom-out button last
                 if (!this.options.separate) {
                     if (this.zoomControl instanceof L.Control.Zoom) {
-                        L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                        L.DomUtil.addClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                     }
                     else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
                         L.DomUtil.addClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
                     }
                 }
+            },
+
+            _getLastControlButton: function() {
+                var container = this.zoomControl._container,
+                    index     = container.children.length-1;
+
+                // Find first visible control button.
+                while (index > 0 && (this._indicator == container.children[index]
+                    || container.children[index].offsetWidth == 0
+                    || container.children[index].offsetHeight == 0)) {
+                    index--;
+                }g
+
+                return container.children[index];
             },
 
             _handleLoading: function(e) {
