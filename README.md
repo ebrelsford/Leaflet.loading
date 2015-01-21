@@ -4,7 +4,8 @@ Leaflet.loading
 Leaflet.loading is a simple loading control for [Leaflet][]. An unobtrusive
 loading indicator is added below the zoom control if one exists. The indicator
 is visible when tiles are loading or when other data is loading, as indicated by
-firing custom events on a map. The indicator can be an image, or a [spin.js][] spinner (image-less).
+firing custom events on a map. The indicator can be an image, or a [spin.js][] 
+spinner (image-less).
 
 
 ## Usage
@@ -12,16 +13,17 @@ firing custom events on a map. The indicator can be an image, or a [spin.js][] s
 Leaflet.loading is only tested on Leaflet version 0.6 or greater. It will almost
 certainly not work with older versions of Leaflet.
 
-Include `Control.Loading.js` and `Control.Loading.css`, then create a map with `loadingControl: true` 
-in its options. 
+Include `Control.Loading.js` and `Control.Loading.css`, then create a map with 
+`loadingControl: true` in its options. 
 
-By default, Leaflet.loading expects an image. `Control.Loading.css` contains a 
-start in this direction. The simplest case would be adding a 16 x 16 loading gif
-in `.leaflet-control-loading`.
+By default, Leaflet.loading includes a base64-encoded animagted loading image in 
+`Control.Loading.css`. You can customize this by changing `background-image` for
+the selector `.leaflet-control-loading`. The simplest case would be adding a 16
+x 16 loading gif in `.leaflet-control-loading`.
 
-You can also set `spinjs: true` in the options, and load [spin.js][] 
-to use that instead of an image. A spin.js options object can be passed as the spin key 
-when initializing the control.
+You can also set `spinjs: true` in the options, and load [spin.js][] to use that
+instead of an image. A spin.js options object can be passed as the spin key when
+initializing the control.
 
 Whichever method you use, make sure you only use one.
 
@@ -43,7 +45,8 @@ the `dataloading` and `dataload` are called symmetrically.
  - **zoomControl**: (L.Control.Zoom) The zoom control that the control should be
    added to. This is only necessary when adding a loading control to a zoom 
    control that you added manually and do not want a separate loading control.
- - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to `false`
+ - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to 
+   `false`
  - **spin**: (object) A [spin.js][] options object. Optional, defaults to 
 
     ```
