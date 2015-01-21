@@ -162,7 +162,7 @@
                     || container.children[index].offsetWidth == 0
                     || container.children[index].offsetHeight == 0)) {
                     index--;
-                }g
+                };
 
                 return container.children[index];
             },
