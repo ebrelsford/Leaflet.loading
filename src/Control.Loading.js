@@ -58,6 +58,10 @@
                     container = this.zoomControl._container;
                     // These classes are no longer used as of Leaflet 0.6
                     classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
+
+                    // Loading control will be added to the zoom control. So the visible last element is not the
+                    // last dom element anymore. So add the part-bottom class.
+                    L.DomUtil.addClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                 }
                 else {
                     // Otherwise, create a container for the indicator
@@ -130,7 +134,7 @@
                 // If zoomControl exists, make the zoom-out button not last
                 if (!this.options.separate) {
                     if (this.zoomControl instanceof L.Control.Zoom) {
-                        L.DomUtil.removeClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                        L.DomUtil.removeClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                     }
                     else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
                         L.DomUtil.removeClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
@@ -145,12 +149,29 @@
                 // If zoomControl exists, make the zoom-out button last
                 if (!this.options.separate) {
                     if (this.zoomControl instanceof L.Control.Zoom) {
-                        L.DomUtil.addClass(this.zoomControl._zoomOutButton, 'leaflet-bar-part-bottom');
+                        L.DomUtil.addClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                     }
                     else if (typeof L.Control.Zoomslider === 'function' && this.zoomControl instanceof L.Control.Zoomslider) {
                         L.DomUtil.addClass(this.zoomControl._ui.zoomOut, 'leaflet-bar-part-bottom');
                     }
                 }
+            },
+
+            _getLastControlButton: function() {
+                var container = this.zoomControl._container,
+                    index = container.children.length - 1;
+
+                // Find the last visible control button that is not our loading
+                // indicator
+                while (index > 0) {
+                    var button = container.children[index];
+                    if (!(this._indicator === button || button.offsetWidth === 0 || button.offsetHeight === 0)) {
+                        break;
+                    }
+                    index--;
+                }
+
+                return container.children[index];
             },
 
             _handleLoading: function(e) {
