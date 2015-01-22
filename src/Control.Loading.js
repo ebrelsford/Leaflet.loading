@@ -58,6 +58,10 @@
                     container = this.zoomControl._container;
                     // These classes are no longer used as of Leaflet 0.6
                     classes += ' leaflet-bar-part-bottom leaflet-bar-part last';
+
+                    // Loading control will be added to the zoom control. So the visible last element is not the
+                    // last dom element anymore. So add the part-bottom class.
+                    L.DomUtil.addClass(this._getLastControlButton(), 'leaflet-bar-part-bottom');
                 }
                 else {
                     // Otherwise, create a container for the indicator
