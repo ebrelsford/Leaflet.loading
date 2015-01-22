@@ -17,3 +17,4 @@ Your pull requests are very welcome! Please follow these guidelines:
  * [kermit-the-frog](https://github.com/kermit-the-frog)
  * [kcwu](https://github.com/kcwu)
  * [Robbie Trencheny](https://github.com/robbiet480)
+ * [David Molineus](https://github.com/dmolineus)
