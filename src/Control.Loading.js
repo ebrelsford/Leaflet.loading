@@ -159,7 +159,7 @@
 
             _getLastControlButton: function() {
                 var container = this.zoomControl._container,
-                    index     = container.children.length-1;
+                    index = container.children.length - 1;
 
                 // Find first visible control button.
                 while (index > 0 && (this._indicator == container.children[index]
