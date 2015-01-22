@@ -161,12 +161,15 @@
                 var container = this.zoomControl._container,
                     index = container.children.length - 1;
 
-                // Find first visible control button.
-                while (index > 0 && (this._indicator == container.children[index]
-                    || container.children[index].offsetWidth == 0
-                    || container.children[index].offsetHeight == 0)) {
+                // Find the last visible control button that is not our loading
+                // indicator
+                while (index > 0) {
+                    var button = container.children[index];
+                    if (!(this._indicator === button || button.offsetWidth === 0 || button.offsetHeight === 0)) {
+                        break;
+                    }
                     index--;
-                };
+                }
 
                 return container.children[index];
             },
