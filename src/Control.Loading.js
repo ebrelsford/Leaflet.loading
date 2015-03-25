@@ -5,6 +5,11 @@
 
 (function () {
 
+    var console = window.console || {
+        error: function () {},
+        warn: function () {}
+    };
+
     function defineLeafletLoading(L) {
         L.Control.Loading = L.Control.extend({
             options: {
