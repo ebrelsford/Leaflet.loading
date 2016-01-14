@@ -18,3 +18,4 @@ Your pull requests are very welcome! Please follow these guidelines:
  * [kcwu](https://github.com/kcwu)
  * [Robbie Trencheny](https://github.com/robbiet480)
  * [David Molineus](https://github.com/dmolineus)
+ * [Marwen Arfa](https://github.com/arfa)
