@@ -247,7 +247,7 @@
                 // events, eg, for AJAX calls that affect the map but will not be
                 // reflected in the above layer events.
                 map.on({
-                    baseLayerChange: this._handleLoading,
+                    baselayerchange: this._handleLoading,
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
                     layerremove: this._handleLoad
@@ -256,7 +256,7 @@
 
             _removeMapListeners: function(map) {
                 map.off({
-                    baseLayerChange: this._handleLoading,
+                    baselayerchange: this._handleLoading,
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
                     layerremove: this._handleLoad
