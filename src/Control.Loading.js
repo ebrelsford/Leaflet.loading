@@ -212,6 +212,21 @@
                 }
             },
 
+            _layerRemove: function(e) {
+                if (!e.layer || !e.layer.off) return;
+                try {
+                    e.layer.off({
+                        loading: this._handleLoading,
+                        load: this._handleLoad
+                    }, this);
+                }
+                catch (exception) {
+                    console.warn('L.Control.Loading: Tried and failed to remove ' +
+                                 'event handlers from layer', e.layer);
+                    console.warn('L.Control.Loading: Full details', exception);
+                }
+            },
+
             _addLayerListeners: function(map) {
                 // Add listeners for begin and end of load to any layers already on the 
                 // map
@@ -226,6 +241,7 @@
                 // When a layer is added to the map, add listeners for begin and end
                 // of load
                 map.on('layeradd', this._layerAdd, this);
+                map.on('layerremove', this._layerRemove, this);
             },
 
             _removeLayerListeners: function(map) {
@@ -238,8 +254,9 @@
                     }, this);
                 }, this);
 
-                // Remove layeradd listener from map
+                // Remove layeradd/layerremove listener from map
                 map.off('layeradd', this._layerAdd, this);
+                map.off('layerremove', this._layerRemove, this);
             },
 
             _addMapListeners: function(map) {
