@@ -18,12 +18,12 @@
                 zoomControl: null,
                 spinjs: false,
                 spin: { 
-                  lines: 7, 
-                  length: 3, 
-                  width: 3, 
-                  radius: 5, 
-                  rotate: 13, 
-                  top: "83%"
+                    lines: 7, 
+                    length: 3, 
+                    width: 3, 
+                    radius: 5, 
+                    rotate: 13, 
+                    top: "83%"
                 }
             },
 
@@ -74,8 +74,8 @@
                 }
                 this._indicator = L.DomUtil.create('a', classes, container);
                 if (this.options.spinjs) {
-                  this._spinner = new Spinner(this.options.spin).spin();
-                  this._indicator.appendChild(this._spinner.el);
+                    this._spinner = new Spinner(this.options.spin).spin();
+                    this._indicator.appendChild(this._spinner.el);
                 }
                 return container;
             },
