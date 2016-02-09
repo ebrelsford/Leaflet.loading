@@ -34,10 +34,11 @@ Once the above is complete you will have a loading indicator that only appears
 when tiles are loading.
 
 If you want to show the loading indicator while other AJAX requests or something
-else is occurring, simply fire the `dataloading` event on your map when you
-begin loading and `dataload` when you are finished loading. The control tracks
-the number of concurrent loaders, so it is your responsibility to ensure that
-the `dataloading` and `dataload` are called symmetrically.
+else is occurring, fire the `dataloading` event on your map when you begin
+loading and `dataload` when you are finished loading. Please note that there is
+[an issue](https://github.com/ebrelsford/Leaflet.loading/issues/26) with the
+way this control tracks these events and that this will be re-worked in a
+future version.
 
 ### Options
 
