@@ -11,7 +11,10 @@ spinner (image-less).
 ## Usage
 
 Leaflet.loading is only tested on Leaflet version 0.6 or greater. It will almost
-certainly not work with older versions of Leaflet.
+certainly not work with older versions of Leaflet. Of course we intend to 
+support Leaflet 1.0, and we have tested against the latest release (beta 2).
+Please create an issue if you find that any part of this project is not
+compatible with Leaflet 1.0.
 
 Include `Control.Loading.js` and `Control.Loading.css`, then create a map with 
 `loadingControl: true` in its options. 
