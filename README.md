@@ -45,6 +45,8 @@ the `dataloading` and `dataload` are called symmetrically.
  - **zoomControl**: (L.Control.Zoom) The zoom control that the control should be
    added to. This is only necessary when adding a loading control to a zoom 
    control that you added manually and do not want a separate loading control.
+ - **delayIndicator**: (float) The number of milliseconds to wait before 
+   showing the loading indicator. Defaults to `null` (no delay).
  - **spinjs**: (boolean) Enable the use of [spin.js][]. Optional, defaults to 
    `false`
  - **spin**: (object) A [spin.js][] options object. Optional, defaults to 

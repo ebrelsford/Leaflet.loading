@@ -13,6 +13,7 @@
     function defineLeafletLoading(L) {
         L.Control.Loading = L.Control.extend({
             options: {
+                delayIndicator: null,
                 position: 'topleft',
                 separate: false,
                 zoomControl: null,
@@ -103,12 +104,32 @@
 
             addLoader: function(id) {
                 this._dataLoaders[id] = true;
-                this.updateIndicator();
+                if (this.options.delayIndicator && !this.delayIndicatorTimeout) {
+                    // If we are delaying showing the indicator and we're not
+                    // already waiting for that delay, set up a timeout.
+                    var that = this;
+                    this.delayIndicatorTimeout = setTimeout(function () {
+                        that.updateIndicator();
+                        that.delayIndicatorTimeout = null;
+                    }, this.options.delayIndicator);
+                }
+                else {
+                    // Otherwise show the indicator immediately
+                    this.updateIndicator();
+                }
             },
 
             removeLoader: function(id) {
                 delete this._dataLoaders[id];
                 this.updateIndicator();
+
+                // If removing this loader means we're in no danger of loading,
+                // clear the timeout. This prevents old delays from instantly 
+                // triggering the indicator.
+                if (this.options.delayIndicator && this.delayIndicatorTimeout && !this.isLoading()) {
+                    clearTimeout(this.delayIndicatorTimeout);
+                    this.delayIndicatorTimeout = null;
+                }
             },
 
             updateIndicator: function() {
