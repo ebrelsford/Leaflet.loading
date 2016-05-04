@@ -1,6 +1,6 @@
 {
   "name": "leaflet-loading",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "description": "A simple loading control for Leaflet",
   "main": "src/Control.Loading.js",
   "scripts": {
