@@ -201,7 +201,19 @@
             },
 
             _handleLoading: function(e) {
-                this.addLoader(this.getEventId(e));
+                var that = this;
+
+                // Check for a target 'layer' that contains multiple layers, such as
+                // L.LayerGroup. This will happen if you have an L.LayerGroup in an
+                // L.Control.Layers.
+                if (e.layer && e.layer.eachLayer && typeof e.layer.eachLayer === 'function') {
+                    e.layer.eachLayer(function (layer) {
+                        that.addLoader(that.getEventId({ layer: layer }));
+                    });
+                }
+                else {
+                    that.addLoader(that.getEventId(e));
+                }
             },
 
             _handleLoad: function(e) {
