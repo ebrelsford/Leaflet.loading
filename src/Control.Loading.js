@@ -201,6 +201,10 @@
             },
 
             _handleLoading: function(e) {
+                this.addLoader(this.getEventId(e));
+            },
+
+            _handleBaseLayerChange: function (e) {
                 var that = this;
 
                 // Check for a target 'layer' that contains multiple layers, such as
@@ -208,11 +212,11 @@
                 // L.Control.Layers.
                 if (e.layer && e.layer.eachLayer && typeof e.layer.eachLayer === 'function') {
                     e.layer.eachLayer(function (layer) {
-                        that.addLoader(that.getEventId({ layer: layer }));
+                        that._handleBaseLayerChange({ layer: layer });
                     });
                 }
                 else {
-                    that.addLoader(that.getEventId(e));
+                    that._handleLoading(e);
                 }
             },
 
@@ -297,7 +301,7 @@
                 // events, eg, for AJAX calls that affect the map but will not be
                 // reflected in the above layer events.
                 map.on({
-                    baselayerchange: this._handleLoading,
+                    baselayerchange: this._handleBaseLayerChange,
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
                     layerremove: this._handleLoad
@@ -306,7 +310,7 @@
 
             _removeMapListeners: function(map) {
                 map.off({
-                    baselayerchange: this._handleLoading,
+                    baselayerchange: this._handleBaseLayerChange,
                     dataloading: this._handleLoading,
                     dataload: this._handleLoad,
                     layerremove: this._handleLoad
