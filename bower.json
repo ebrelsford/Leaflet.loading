@@ -6,7 +6,10 @@
     "Eric Brelsford <ebrelsford@gmail.com>"
   ],
   "description": "A loading-indicator control for Leaflet",
-  "main": "src/Control.Loading.js",
+  "main": [
+    "src/Control.Loading.css",
+    "src/Control.Loading.js"
+  ],
   "keywords": [
     "leaflet",
     "map",
