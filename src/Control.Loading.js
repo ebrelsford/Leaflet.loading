@@ -18,12 +18,12 @@
                 separate: false,
                 zoomControl: null,
                 spinjs: false,
-                spin: { 
-                    lines: 7, 
-                    length: 3, 
-                    width: 3, 
-                    radius: 5, 
-                    rotate: 13, 
+                spin: {
+                    lines: 7,
+                    length: 3,
+                    width: 3,
+                    radius: 5,
+                    rotate: 13,
                     top: "83%"
                 }
             },
@@ -32,8 +32,8 @@
                 L.setOptions(this, options);
                 this._dataLoaders = {};
 
-                // Try to set the zoom control this control is attached to from the 
-                // options
+                // Try to set the zoom control this control is attached to from
+                // the options
                 if (this.options.zoomControl !== null) {
                     this.zoomControl = this.options.zoomControl;
                 }
@@ -125,7 +125,7 @@
                 this.updateIndicator();
 
                 // If removing this loader means we're in no danger of loading,
-                // clear the timeout. This prevents old delays from instantly 
+                // clear the timeout. This prevents old delays from instantly
                 // triggering the indicator.
                 if (this.options.delayIndicator && this.delayIndicatorTimeout && !this.isLoading()) {
                     clearTimeout(this.delayIndicatorTimeout);
@@ -272,8 +272,8 @@
             },
 
             _addLayerListeners: function(map) {
-                // Add listeners for begin and end of load to any layers already on the 
-                // map
+                // Add listeners for begin and end of load to any layers already
+                // on the map
                 map.eachLayer(function(layer) {
                     if (!layer.on) return;
                     layer.on({
@@ -282,8 +282,8 @@
                     }, this);
                 }, this);
 
-                // When a layer is added to the map, add listeners for begin and end
-                // of load
+                // When a layer is added to the map, add listeners for begin and
+                // end of load
                 map.on('layeradd', this._layerAdd, this);
                 map.on('layerremove', this._layerRemove, this);
             },
