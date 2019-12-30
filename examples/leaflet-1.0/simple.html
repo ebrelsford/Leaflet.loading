@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Leaflet.loading example&mdash;two base layers</title>
+        <title>Leaflet.loading example&mdash;simple</title>
 
         <!-- Include Leaflet -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
@@ -20,14 +20,6 @@
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 }),
 
-                GridLayer = L.GridLayer.extend({
-                    createTile: function(coords){
-                        return L.DomUtil.create('canvas', 'leaflet-tile');
-                    }
-                }),
-
-                gridLayer = new GridLayer(),
-
                 map = new L.Map('map', {
                     layers: [openStreetMap],
                     center: new L.LatLng(40.65,-73.95),
@@ -36,12 +28,6 @@
                     // Tell the map to use a loading control
                     loadingControl: true
                 });
-
-                var baseLayers = {
-                    OSM: openStreetMap,
-                    gridLayer: gridLayer,
-                };
-                L.control.layers(baseLayers).addTo(map);
         </script>
     </body>
 </html>
