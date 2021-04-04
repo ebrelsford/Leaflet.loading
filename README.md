@@ -40,6 +40,21 @@ loading and `dataload` when you are finished loading. Please note that there is
 way this control tracks these events and that this will be re-worked in a
 future version.
 
+In some cases the loading icon needs to be displayed when actions are performed 
+which are not directly related to the map. To manually show and hide the loading 
+indicator one can call `_showIndicator();` and `_hideIndicator();` as discussend 
+in [#44](https://github.com/ebrelsford/Leaflet.loading/issues/44).
+
+Example:
+```
+var loadingControl = L.Control.loading({ separate: true, delayIndicator: 300 });
+map.addControl(this._loadingControl);
+...
+loadingControl._showIndicator();
+...
+loadingControl._hideIndicator();
+```
+
 ### Options
 
  - **position**: (string) Where you want the control to show up on the map (standard
