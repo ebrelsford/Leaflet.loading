@@ -66,6 +66,27 @@ future version.
     }
     ```
 
+### Usage with [`react-leaflet`](https://github.com/PaulLeCam/react-leaflet)
+
+1. `npm install leaflet-loading`.
+1. Add `import "leaflet-loading";` to the file containing [`MapContainer`](https://react-leaflet.js.org/docs/start-setup).
+1. Add `@import "~leaflet-loading/src/Control.Loading.css"` to `index.scss`.
+1. Add `loadingControl={true}` to `<MapContainer>` props.
+
+If you're using **TypeScript** you will get an error:
+
+```
+Property 'loadingControl' does not exist on type 'IntrinsicAttributes & MapContainerProps'.  TS2322
+```
+
+Until [react-leaflet#847](https://github.com/PaulLeCam/react-leaflet/issues/847) is fixed you can work around with [`@ts-ignore`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html#suppress-errors-in-ts-files-using--ts-ignore-comments), eg:
+```js
+<MapContainer
+  // @ts-ignore
+  loadingControl={true}
+>
+```
+
 
 ## Demos
 
