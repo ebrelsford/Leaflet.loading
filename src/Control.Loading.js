@@ -332,7 +332,7 @@
             }
         });
 
-        L.Control.loading = function(options) {
+        L.control.loading = function(options) {
             return new L.Control.Loading(options);
         };
     }
