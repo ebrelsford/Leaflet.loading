@@ -97,7 +97,7 @@ See Leaflet.loading in action (zoom or pan to make tiles load):
  - With the loading indicator [separate][] from the zoom control.
  - With the loading indicator and zoom control on the [top right][topright] of
    the map.
- - The [simplest example using spin.js](http://ebrelsford.github.io/Leaflet.loading/spinjs.html) instead of an image
+ - The [simplest example using spin.js](https://ebrelsford.github.io/Leaflet.loading/spinjs.html) instead of an image
  - Combined with a [fullscreen control][combined] (e.g. [leaflet.fullscreen][]).
 
 
@@ -109,8 +109,8 @@ License.
 
  [Leaflet]: https://github.com/Leaflet/Leaflet
  [spin.js]: https://github.com/fgnass/spin.js/
- [simple]: http://ebrelsford.github.io/Leaflet.loading/simple.html
- [separate]: http://ebrelsford.github.io/Leaflet.loading/separate.html
- [topright]: http://ebrelsford.github.io/Leaflet.loading/topright.html
- [combined]: http://ebrelsford.github.io/Leaflet.loading/combined.html
+ [simple]: https://ebrelsford.github.io/Leaflet.loading/simple.html
+ [separate]: https://ebrelsford.github.io/Leaflet.loading/separate.html
+ [topright]: https://ebrelsford.github.io/Leaflet.loading/topright.html
+ [combined]: https://ebrelsford.github.io/Leaflet.loading/combined.html
  [leaflet.fullscreen]: https://github.com/brunob/leaflet.fullscreen
